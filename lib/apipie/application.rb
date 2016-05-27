@@ -66,7 +66,8 @@ module Apipie
 
     def routes_for_action(controller, method, args)
       routes = rails_routes.select do |route|
-        controller == route_app_controller(route.app, route) &&
+        (controller == route_app_controller(route.app, route) || 
+            controller.to_s.chomp("Controller").downcase.sub("::", "/") == route.defaults[:controller]) &&
             method.to_s == route.defaults[:action]
       end
 
